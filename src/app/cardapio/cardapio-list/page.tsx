@@ -25,7 +25,7 @@ export default async function CardapioList() {
         <div className="">
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-10"> Cardápio</h1>
 
-            <div className="grid grid-cols-3 gap-8">
+            <div className="grid grid-cols-4 gap-8">
                 {cardapios.map(c => (
                     <Card key={c.id}>
                         <CardHeader className="flex-row gap-4 intems-center">
@@ -39,7 +39,7 @@ export default async function CardapioList() {
                         </CardHeader>
                         <CardContent>{c.descricao}</CardContent>
                         <CardFooter className="flex justify-between"><p>R$: {c.preco},00</p>
-                        <Button>Pedir</Button>
+                        <Button variant={"destructive"}>Pedir</Button>
                         </CardFooter>
                         
                     </Card>

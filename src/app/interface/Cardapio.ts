@@ -1,8 +1,7 @@
 export interface Cardapio {
 
-    id: number, 
-    nome?: string, 
-    descricao?: string,
-    preco?: number
-    disponibilidade?: boolean;
+    id?: number, 
+    nome: string, 
+    descricao: string,
+    preco: number
 }
