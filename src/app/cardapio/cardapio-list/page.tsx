@@ -1,12 +1,15 @@
+"use client"
+
 import { unstable_noStore as noStore } from "next/cache";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Cardapio } from "../../interface/Cardapio";
-import { use } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 
-async function getCardapio(): Promise<Cardapio[]> {
+async function fetchCardapio(): Promise<Cardapio[]> {
 
     const result = await fetch('http://localhost:5284/api/cardapio/listar-todos', {
         method: 'GET'
@@ -16,15 +19,35 @@ async function getCardapio(): Promise<Cardapio[]> {
     return result.json()
 }
 
-export default async function CardapioList() {
+export default function CardapioList() {
 
     noStore();
-    const cardapios = await getCardapio();
+
+    const [cardapios, setCardapios] = useState<Cardapio[]>([]);
+    const [pedido, setPedido] = useState<Cardapio[]>([]);
+    const [message, setMessage] = useState<string | null>(null);
+    const router = useRouter();
+
+    useEffect(() => {
+        const getCardapio = async () => {
+            const data = await fetchCardapio();
+            setCardapios(data);
+        };
+
+        getCardapio();
+    }, []);
+
+   
+    const handleOrder = (cardapioID: number) => {
+        const clienteId = 2; // Exemplo de clienteId, pode ser obtido de outra forma
+        const cardapio = cardapioID;
+        router.push(`/pedido/pedido-form?cardapioIds=${cardapio}`);
+    };
 
     return (
         <div className="">
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-10"> Cardápio</h1>
-
+            {message && <div className="mb-4 text-green-600">{message}</div>}
             <div className="grid grid-cols-4 gap-8">
                 {cardapios.map(c => (
                     <Card key={c.id}>
@@ -32,19 +55,19 @@ export default async function CardapioList() {
                             <Avatar>
                                 <AvatarImage src="/img/comida.png" />
                                 <AvatarFallback>
-                                    {c.nome?.slice(0,2)}
+                                    {c.nome?.slice(0, 2)}
                                 </AvatarFallback>
                             </Avatar>
                             <CardTitle>{c.nome}</CardTitle>
                         </CardHeader>
                         <CardContent>{c.descricao}</CardContent>
                         <CardFooter className="flex justify-between"><p>R$: {c.preco},00</p>
-                        <Button variant={"destructive"}>Pedir</Button>
+                            <Button variant={"destructive"} onClick={() => handleOrder(c.id)} > Adicionar ao pedido</Button>
                         </CardFooter>
-                        
                     </Card>
                 ))}
             </div>
+           
 
         </div>
 

@@ -61,11 +61,7 @@ export default function ClienteForm(){
             console.error('Erro na requisição:', error);
         }
 
-      
     }
-
-
-
     return(
 
         <form onSubmit={handleSubmit}>
@@ -108,7 +104,6 @@ export default function ClienteForm(){
                         </div>
                 
                 </CardFooter>
-
             </Card>
         </form>
     );

@@ -12,6 +12,7 @@ import { Cardapio } from "@/app/interface/Cardapio";
 export default function CardapioForm() {
 
     const [cardapio, setCardapio] = useState<Cardapio>({
+        id: 0,
         nome: '',
         descricao: '',
         preco: 0
