@@ -7,6 +7,7 @@ import { Cardapio } from "../../interface/Cardapio";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { ItemCardapio } from "@/app/pedido/pedido-form/page";
 
 
 async function fetchCardapio(): Promise<Cardapio[]> {
@@ -24,7 +25,7 @@ export default function CardapioList() {
     noStore();
 
     const [cardapios, setCardapios] = useState<Cardapio[]>([]);
-    const [pedido, setPedido] = useState<Cardapio[]>([]);
+    const [pedido, setPedido] = useState<ItemCardapio[]>([]);
     const [message, setMessage] = useState<string | null>(null);
     const router = useRouter();
 
@@ -37,12 +38,22 @@ export default function CardapioList() {
         getCardapio();
     }, []);
 
-   
+
     const handleOrder = (cardapioID: number) => {
         const clienteId = 2; // Exemplo de clienteId, pode ser obtido de outra forma
-        const cardapio = cardapioID;
-        router.push(`/pedido/pedido-form?cardapioIds=${cardapio}`);
-    };
+        const cardapioN = cardapios.find((cardapio) => cardapio.id === cardapioID);
+
+        const itemAdd: ItemCardapio = {
+            cardapio: cardapioN!,
+            quantidade: 1
+        };
+        const newItem: ItemCardapio[] = [...pedido, itemAdd]
+
+        localStorage.setItem('pedido', JSON.stringify(newItem)); // Salvar no localStorage
+        setPedido(newItem);
+        router.push(`/pedido/pedido-form?cardapioIds=${cardapioID}`);
+    }
+
 
     return (
         <div className="">
@@ -67,7 +78,7 @@ export default function CardapioList() {
                     </Card>
                 ))}
             </div>
-           
+
 
         </div>
 
