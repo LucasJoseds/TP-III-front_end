@@ -40,18 +40,24 @@ export default function CardapioList() {
 
 
     const handleOrder = (cardapioID: number) => {
-        const clienteId = 2; // Exemplo de clienteId, pode ser obtido de outra forma
         const cardapioN = cardapios.find((cardapio) => cardapio.id === cardapioID);
+        if (!cardapioN) return;
 
         const itemAdd: ItemCardapio = {
-            cardapio: cardapioN!,
+            cardapio: cardapioN,
             quantidade: 1
         };
-        const newItem: ItemCardapio[] = [...pedido, itemAdd]
 
-        localStorage.setItem('pedido', JSON.stringify(newItem)); // Salvar no localStorage
-        setPedido(newItem);
-        router.push(`/pedido/pedido-form?cardapioIds=${cardapioID}`);
+        // Get the current order from localStorage
+        const currentOrder = JSON.parse(localStorage.getItem("pedido") || "[]");
+
+        // Add the new item to the order
+        const newOrder = [...currentOrder, itemAdd];
+
+        // Save the updated order to localStorage
+        localStorage.setItem("pedido", JSON.stringify(newOrder));
+
+        router.push(`/pedido/pedido-form`);
     }
 
 

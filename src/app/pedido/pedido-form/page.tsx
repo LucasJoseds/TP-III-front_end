@@ -17,38 +17,13 @@ export default function PedidoForm() {
 
     const searchParams = useSearchParams();
     const pedido = searchParams.get('cardapioIds');
-    const [items, setItems] = useState<ItemCardapio[]>(JSON.parse(localStorage.getItem('pedido') || '[]'));
-
-
-
-    async function fetchCardapio(id: number): Promise<Cardapio> {
-
-        const result = await fetch(`http://localhost:5284/api/cardapio?Id=${id}`, {
-            method: 'GET'
-        });
-
-        return result.json();
-    }
+    const [items, setItems] = useState<ItemCardapio[]>([]);
 
 
     useEffect(() => {
-        if (!pedido) return;
-
-        const parsedPedido = parseInt(pedido);
-        fetchCardapio(parsedPedido)
-            .then(data => {              
-                const newItem: ItemCardapio = {
-                    cardapio: data,
-                    quantidade: 1 // Por enquanto, vamos definir a quantidade como 1
-                };
-                // Adicione o novo item ao estado items
-                setItems([...items, newItem]);
-                
-            })
-            .catch(() => {
-                // Trate erros, se necessário
-            });
-    }, [pedido]);
+        const currentOrder = JSON.parse(localStorage.getItem("pedido") || "[]");
+        setItems(currentOrder);
+    }, []);
 
     
     return (
