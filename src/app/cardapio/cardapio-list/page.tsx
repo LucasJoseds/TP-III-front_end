@@ -26,7 +26,6 @@ export default function CardapioList() {
 
     const [cardapios, setCardapios] = useState<Cardapio[]>([]);
     const [pedido, setPedido] = useState<ItemCardapio[]>([]);
-    const [message, setMessage] = useState<string | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -43,19 +42,23 @@ export default function CardapioList() {
         const cardapioN = cardapios.find((cardapio) => cardapio.id === cardapioID);
         if (!cardapioN) return;
 
-        const itemAdd: ItemCardapio = {
-            cardapio: cardapioN,
-            quantidade: 1
-        };
-
-        // Get the current order from localStorage
+      
         const currentOrder = JSON.parse(localStorage.getItem("pedido") || "[]");
+        const itemIndex = currentOrder.findIndex((item: ItemCardapio) => item.cardapio.id === cardapioID);
 
-        // Add the new item to the order
-        const newOrder = [...currentOrder, itemAdd];
+        if (itemIndex > -1) {
+            // Item already exists, update the quantity
+            currentOrder[itemIndex].quantidade += 1;
+        } else {
+            // Item does not exist, add it to the order
+            const itemAdd: ItemCardapio = {
+                cardapio: cardapioN,
+                quantidade: 1
+            };
+            currentOrder.push(itemAdd);
+        }
 
-        // Save the updated order to localStorage
-        localStorage.setItem("pedido", JSON.stringify(newOrder));
+        localStorage.setItem("pedido", JSON.stringify(currentOrder));
 
         router.push(`/pedido/pedido-form`);
     }
@@ -64,7 +67,7 @@ export default function CardapioList() {
     return (
         <div className="">
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-10"> Cardápio</h1>
-            {message && <div className="mb-4 text-green-600">{message}</div>}
+
             <div className="grid grid-cols-4 gap-8">
                 {cardapios.map(c => (
                     <Card key={c.id}>
