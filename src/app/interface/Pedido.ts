@@ -4,7 +4,11 @@ import { Cliente } from "./Cliente";
 
 export interface Pedido{
     id:number,
-    itens?: ItemCardapio[],
-    cliente:number,
+    itens?: {
+        quantidade: number;
+        valor: number;
+        cardapioId: number;
+    }[];
+    clienteId:number,
     numeroMesa: number
 }

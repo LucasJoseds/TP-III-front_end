@@ -6,13 +6,10 @@ import { useState, useEffect, FormEvent } from "react";
 import Link from "next/link";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import Icon from '@mui/material/Icon';
-import { green } from "@mui/material/colors";
 import { Badge } from "@/components/ui/badge";
-import { BsFillPlusCircleFill } from "react-icons/bs";
 import { FaPlusCircle } from "react-icons/fa";
 import { Pedido } from "@/app/interface/Pedido";
-import { Cliente } from "@/app/interface/Cliente";
+
 
 
 export interface ItemCardapio {
@@ -29,13 +26,13 @@ export default function PedidoForm() {
     const [items, setItems] = useState<ItemCardapio[]>([]);
     const [total, setTotal] = useState(0);
     const [numeroMesa, setNumeroMesa] = useState(0);
-    const clienteId=2;
+    const clienteId=3;
   
-
     useEffect(() => {
         const currentOrder = JSON.parse(localStorage.getItem("pedido") || "[]");
         setItems(currentOrder);
         calculateTotal(currentOrder)
+       
     }, []);
 
 
@@ -51,14 +48,16 @@ export default function PedidoForm() {
 
         const pedidoData: Pedido = {
             id: 0,
-            cliente: clienteId,
+            clienteId: clienteId,
             itens: currentOrder.map((item) => ({
                 quantidade: item.quantidade,
-                valor: item.cardapio.preco * item.quantidade,
-                cardapio: item.cardapio, // Adicionando o objeto cardapio ao item de pedido
+                valor: item.cardapio.preco * item.quantidade, 
+                cardapioId:item.cardapio.id
+            
               })),
-            numeroMesa: numeroMesa
-        };
+              numeroMesa: numeroMesa
+            };
+              
         try {
             const response = await fetch('http://localhost:5284/api/pedidos', {
                 method: 'POST',

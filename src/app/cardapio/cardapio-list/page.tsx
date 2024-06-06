@@ -53,7 +53,8 @@ export default function CardapioList() {
             // Item does not exist, add it to the order
             const itemAdd: ItemCardapio = {
                 cardapio: cardapioN,
-                quantidade: 1
+                quantidade: 1,
+                cardapioId:cardapioID,
             };
             currentOrder.push(itemAdd);
         }
