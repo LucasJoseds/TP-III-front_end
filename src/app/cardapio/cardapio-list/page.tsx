@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ItemCardapio } from "@/app/pedido/pedido-form/page";
+import { Badge } from "@/components/ui/badge";
 
 
 async function fetchCardapio(): Promise<Cardapio[]> {
@@ -42,7 +43,7 @@ export default function CardapioList() {
         const cardapioN = cardapios.find((cardapio) => cardapio.id === cardapioID);
         if (!cardapioN) return;
 
-      
+
         const currentOrder = JSON.parse(localStorage.getItem("pedido") || "[]");
         const itemIndex = currentOrder.findIndex((item: ItemCardapio) => item.cardapio.id === cardapioID);
 
@@ -54,7 +55,7 @@ export default function CardapioList() {
             const itemAdd: ItemCardapio = {
                 cardapio: cardapioN,
                 quantidade: 1,
-                cardapioId:cardapioID,
+                cardapioId: cardapioID,
             };
             currentOrder.push(itemAdd);
         }
@@ -67,9 +68,9 @@ export default function CardapioList() {
 
     return (
         <div className="">
-            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-10"> Cardápio</h1>
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-10"> Cardápio do dia</h1>
 
-            <div className="grid grid-cols-4 gap-8">
+            <div className="grid grid-cols-4 gap-12">
                 {cardapios.map(c => (
                     <Card key={c.id}>
                         <CardHeader className="flex-row gap-4 intems-center">
@@ -81,9 +82,17 @@ export default function CardapioList() {
                             </Avatar>
                             <CardTitle>{c.nome}</CardTitle>
                         </CardHeader>
-                        <CardContent>{c.descricao}</CardContent>
-                        <CardFooter className="flex justify-between"><p>R$: {c.preco},00</p>
-                            <Button variant={"destructive"} onClick={() => handleOrder(c.id)} > Adicionar ao pedido</Button>
+                        <CardContent>
+                            <CardDescription>{c.descricao}
+                            </CardDescription>
+                        </CardContent>
+                        <CardContent>
+                            <Badge className="btn-preco">R$:{c.preco},00</Badge>
+                        </CardContent>
+                        <CardFooter>
+                            <div className="grid w-full items-center gap-4">
+                                <Button variant={"destructive"} onClick={() => handleOrder(c.id)} > Adicionar ao pedido</Button>
+                            </div>
                         </CardFooter>
                     </Card>
                 ))}
