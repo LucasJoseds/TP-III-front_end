@@ -8,7 +8,10 @@ export interface Pedido{
         quantidade: number;
         valor: number;
         cardapioId: number;
+        cardapio:Cardapio
     }[];
+    status?:string,
     clienteId:number,
     numeroMesa: number
+    dataPedido?:Date
 }

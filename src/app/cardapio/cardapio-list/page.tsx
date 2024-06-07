@@ -24,9 +24,7 @@ async function fetchCardapio(): Promise<Cardapio[]> {
 export default function CardapioList() {
 
     noStore();
-
     const [cardapios, setCardapios] = useState<Cardapio[]>([]);
-    const [pedido, setPedido] = useState<ItemCardapio[]>([]);
     const router = useRouter();
 
     useEffect(() => {

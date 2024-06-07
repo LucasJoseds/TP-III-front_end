@@ -80,10 +80,11 @@ export default function PedidoForm() {
             itens: currentOrder.map((item) => ({
                 quantidade: item.quantidade,
                 valor: item.cardapio.preco * item.quantidade,
-                cardapioId: item.cardapio.id
-
+                cardapioId: item.cardapio.id, 
+                cardapio:item.cardapio      
             })),
             numeroMesa: numeroMesa
+            
         };
 
         try {

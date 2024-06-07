@@ -51,7 +51,7 @@ function ResponsiveAppBar() {
       }
 
       if (page === 'Meus pedidos') {
-        router.push('/cardapio/cardapio-list');
+        router.push('/cliente/cliente-orders');
       }
   };
 
