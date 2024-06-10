@@ -17,7 +17,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
 
-const pages = ['Home', 'Cardápio', 'Meus pedidos'];
+const pages = ['Home', 'Meus pedidos'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {

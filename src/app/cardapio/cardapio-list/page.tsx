@@ -66,8 +66,9 @@ export default function CardapioList() {
 
     return (
         <div className="">
-            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-10"> Cardápio do dia</h1>
+            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-10"> Pratos mais pedidos</h1>
 
+            <button>testes</button>
             <div className="grid grid-cols-4 gap-12">
                 {cardapios.map(c => (
                     <Card key={c.id}>

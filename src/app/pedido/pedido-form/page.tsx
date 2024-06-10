@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { Label } from "@/components/ui/label";
-
+import { GoPlus } from "react-icons/go";
 
 
 export interface ItemCardapio {
@@ -140,18 +140,15 @@ export default function PedidoForm() {
                     </Card>
 
                 ))}
-
+            <Button className="grid w-full items-center gap-4 mt-3 mb-7" variant={"ghost"}>Adicionar mais itens </Button>
             </div>
 
             <div className="flex justify-between">
                 <h4 className="mt-4 font-bold ">Total:</h4>
-                <Badge className="items-center mt-4" variant={"destructive"}>
+                <Badge className="items-center mt-4 p-2" variant={"destructive"}>
                         R${total.toFixed(2)}
                     </Badge>
-                <Link className="mt-4" href={"/cardapio/cardapio-list"}>
-                    <FaRegPlusSquare size={27} />
-                </Link>
-
+               
             </div>
             <div className="relative">
                 <div className="absolute inset-0 flex items-center mt-2">
