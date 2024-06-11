@@ -116,8 +116,12 @@ export default function PedidoForm() {
 
 
     return (
+        
         <div>
-            <h1 className="scroll-m-15 text-3xl font-bold tracking-tight center-title">Itens do Pedido</h1>
+           <div className="text-center my-8">
+                <h1 className="text-4xl  text-gray-800">Seu pedido</h1>
+          
+            </div>
 
             <div className="row gap-8 mt-3">
                 {items.map(item => (
@@ -143,12 +147,11 @@ export default function PedidoForm() {
             <Button className="grid w-full items-center gap-4 mt-3 mb-7" variant={"ghost"}>Adicionar mais itens </Button>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex justify-between ml-10">
                 <h4 className="mt-4 font-bold ">Total:</h4>
-                <Badge className="items-center mt-4 p-2" variant={"destructive"}>
+                <Badge className="items-center mt-3 p-2 mr-10">
                         R${total.toFixed(2)}
-                    </Badge>
-               
+                    </Badge>            
             </div>
             <div className="relative">
                 <div className="absolute inset-0 flex items-center mt-2">

@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
+
 export default function Login() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
@@ -49,34 +50,36 @@ export default function Login() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <Card className="w-[350px]">
-                <CardHeader>
-                    <CardTitle>Login</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="grid w-full items-center gap-4">
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="email">E-mail</Label>
-                            <Input id="email" placeholder="Informe seu e-mail" value={email} onChange={handleChange} />
+
+    
+            <form onSubmit={handleSubmit}>
+                <Card className="w-[350px]">
+                    <CardHeader>
+                        <CardTitle>Login</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid w-full items-center gap-4">
+                            <div className="flex flex-col space-y-1.5">
+                                <Label htmlFor="email">E-mail</Label>
+                                <Input id="email" placeholder="Informe seu e-mail" value={email} onChange={handleChange} />
+                            </div>
+                            <div className="flex flex-col space-y-1.5">
+                                <Label htmlFor="senha">Senha</Label>
+                                <Input id="senha" type="password" placeholder="informe sua senha" value={senha} onChange={handleChange} />
+                            </div>
                         </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="senha">Senha</Label>
-                            <Input id="senha" type="password" placeholder="informe sua senha" value={senha} onChange={handleChange} />
+                    </CardContent>
+                    <CardFooter className="flex justify-between">
+                        <div className="grid w-full items-center gap-4">
+                            <div className="flex flex-col space-y-1.5">
+                                <Button className="w-full" type="submit" variant="destructive">Entrar</Button>
+                            </div>
+                            <div className="flex flex-col space-y-1.5">
+                                <Link href="/cliente/cliente-form" className={buttonVariants({ variant: 'outline' })} >Cadastre-se</Link>
+                            </div>
                         </div>
-                    </div>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                    <div className="grid w-full items-center gap-4">
-                        <div className="flex flex-col space-y-1.5">
-                            <Button className="w-full" type="submit" variant="destructive">Entrar</Button>
-                        </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <Link href="/cliente/cliente-form" className={buttonVariants({ variant: 'outline' })} >Cadastre-se</Link>
-                        </div>
-                    </div>
-                </CardFooter>
-            </Card>
-        </form>
+                    </CardFooter>
+                </Card>
+            </form>
     );
 }

@@ -8,11 +8,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Grid from "@mui/material/Grid";
 import { FaRegEye } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
@@ -28,7 +24,7 @@ export default function Home() {
     
     <Box sx={{ flexGrow: 1, p: 2 }}>
     <Grid container spacing={4} direction="column">
-      {/* Cardápio do Dia */}
+
       <Grid item xs={12}>
         <Card sx={{ display: 'flex', height: 200, width: '100%' }}>
           <CardMedia

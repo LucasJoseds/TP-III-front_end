@@ -66,10 +66,14 @@ export default function CardapioList() {
 
     return (
         <div className="">
-            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-10"> Pratos mais pedidos</h1>
 
-            <button>testes</button>
-            <div className="grid grid-cols-4 gap-12">
+            <div className="text-center my-8">
+                <h1 className="text-4xl  text-gray-800">Top Escolhas dos Clientes</h1>
+                <p className="text-3x1 text-gray-600 mt-2">Confira os pratos que nossos clientes mais adoram!</p>
+            </div>
+
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {cardapios.map(c => (
                     <Card key={c.id}>
                         <CardHeader className="flex-row gap-4 intems-center">
@@ -86,7 +90,7 @@ export default function CardapioList() {
                             </CardDescription>
                         </CardContent>
                         <CardContent>
-                            <Badge className="btn-preco">R$:{c.preco},00</Badge>
+                            <Badge>R$:{c.preco},00</Badge>
                         </CardContent>
                         <CardFooter>
                             <div className="grid w-full items-center gap-4">
