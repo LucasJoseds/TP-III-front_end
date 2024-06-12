@@ -100,8 +100,7 @@ function ResponsiveAppBar() {
         <Toolbar disableGutters>
         <Button onClick={()=>router.push("/")}>
 
-        <Avatar alt="Remy Sharp" src="/img/name.png"  sx={{ width: 100, borderRadius:0 ,marginRight:10 }} className='cursor-pointer'/>
-
+        <Avatar alt="Logo" src="/img/logo_nova.png"  sx={{ display:{xs:'none', md:'flex'} ,width: 160, borderRadius:0 ,marginRight:10 }} className='cursor-pointer'/>
         </Button>
        
 
@@ -158,7 +157,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            <Avatar alt="Remy Sharp" src="/img/restaurante.png" sx={{ width: 110 }}/>
+            <Avatar alt="Remy Sharp" src="/img/logo_nova.png" sx={{ width: 180, borderRadius:0 }}/>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
