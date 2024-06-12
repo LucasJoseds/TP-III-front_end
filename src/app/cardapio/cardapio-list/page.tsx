@@ -7,8 +7,9 @@ import { Cardapio } from "../../interface/Cardapio";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { ItemCardapio } from "@/app/pedido/pedido-form/page";
+
 import { Badge } from "@/components/ui/badge";
+import { ItemCardapio } from "@/app/interface/ItemCardapio";
 
 
 async function fetchCardapio(): Promise<Cardapio[]> {
@@ -58,7 +59,9 @@ export default function CardapioList() {
             currentOrder.push(itemAdd);
         }
 
+        console.log("Carrinho atualizado:", currentOrder);
         localStorage.setItem("pedido", JSON.stringify(currentOrder));
+        window.dispatchEvent(new Event('storage'));
 
         router.push(`/pedido/pedido-form`);
     }

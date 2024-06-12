@@ -13,23 +13,17 @@ import { Input } from "@/components/ui/input";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { Label } from "@/components/ui/label";
-import { GoPlus } from "react-icons/go";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { ItemCardapio } from "@/app/interface/ItemCardapio";
 
 
-export interface ItemCardapio {
-    cardapio: Cardapio,
-    quantidade: number
-    valor?: number,
-    cardapioId?: number,
-    pedidoId?: number
-
-}
 
 export default function PedidoForm() {
 
     const [items, setItems] = useState<ItemCardapio[]>([]);
     const [total, setTotal] = useState(0);
     const [numeroMesa, setNumeroMesa] = useState(0);
+    const router = useRouter();
     const clienteId = 2;
 
     useEffect(() => {
@@ -55,6 +49,7 @@ export default function PedidoForm() {
             return item;
         }).filter(item => item.quantidade > 0);
         setItems(updatedItems);
+       
         localStorage.setItem("pedido", JSON.stringify(updatedItems));
         calculateTotal(updatedItems);
     };
@@ -111,9 +106,26 @@ export default function PedidoForm() {
         const updatedItems = items.filter(item => item.cardapio.id !== itemId);
         setItems(updatedItems);
         localStorage.setItem("pedido", JSON.stringify(updatedItems));
+        window.dispatchEvent(new Event('storage'));
         calculateTotal(updatedItems);
     };
 
+
+    if (items.length === 0) {
+        return (
+            <div>
+                <div>
+                    <h1 className="text-center text-3xl leading-tight tracking-tighter md:text-5xl lg:leading-[1.1]">Sua sacola está vazia!</h1>
+                </div>
+                <div>
+                    <Button variant={"destructive"} onClick={() => router.push("/")} className="w-full mt-5">
+                        <IoMdArrowRoundBack className="mr-3" /> Ver nossas opções
+                    </Button>
+                </div>
+            </div>
+
+        )
+    }
 
     return (
         
@@ -144,17 +156,18 @@ export default function PedidoForm() {
                     </Card>
 
                 ))}
-            <Button className="grid w-full items-center gap-4 mt-3 mb-7" variant={"ghost"}>Adicionar mais itens </Button>
+            <Button className="grid w-full items-center gap-4 mt-3 mb-7" variant={"ghost"} onClick={()=>router.push("/cardapio/cardapio-list")}> Adicionar mais itens </Button>
             </div>
 
-            <div className="flex justify-between ml-10">
-                <h4 className="mt-4 font-bold ">Total:</h4>
-                <Badge className="items-center mt-3 p-2 mr-10">
-                        R${total.toFixed(2)}
-                    </Badge>            
+            <div className="flex justify-between">
+                <h4 className="mt-4 font-bold ">Total</h4>
+                   <span className="font-bold mt-4 "> 
+                    R${total.toFixed(2)}
+                    </span>
+                               
             </div>
             <div className="relative">
-                <div className="absolute inset-0 flex items-center mt-2">
+                <div className="absolute inset-0 flex items-center mt-3">
                     <span className="w-full border-t"></span>
                 </div>
             </div>

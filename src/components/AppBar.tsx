@@ -13,19 +13,47 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useRouter } from 'next/navigation';
-import { AvatarImage } from "@/components/ui/avatar";
+import { IoBagRemoveOutline } from "react-icons/io5";
+import { FiUser } from "react-icons/fi";
+
+import { useEffect, useState } from 'react';
+
 
 const pages = ['Home', 'Meus pedidos'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Minha conta', 'Sair'];
 
 function ResponsiveAppBar() {
   const router = useRouter();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
+  const [currentOrder, setCurrentOrder] = useState([]);
+
+  const updateCurrentOrder = () => {
+    const storedOrder = JSON.parse(localStorage.getItem("pedido") || "[]");
+    setCurrentOrder(storedOrder);
+  };
+
+  useEffect(() => {
+    updateCurrentOrder();
+    
+    // Evento personalizado para atualizar o estado quando o carrinho for atualizado
+    const handleStorageChange = () => {
+     
+        updateCurrentOrder();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Cleanup do evento
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+ 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -70,7 +98,12 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <Avatar alt="Remy Sharp" src="/img/name.png" sx={{ width: 100, borderRadius:0 ,marginRight:10 }} className=''/>
+        <Button onClick={()=>router.push("/")}>
+
+        <Avatar alt="Remy Sharp" src="/img/name.png"  sx={{ width: 100, borderRadius:0 ,marginRight:10 }} className='cursor-pointer'/>
+
+        </Button>
+       
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -138,12 +171,18 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
-
+          
+            <div onClick={()=>router.push("/pedido/pedido-form")} className='flex items-center cursor-pointer relative mr-10'>
+              <IoBagRemoveOutline size={24} />
+              <span className='bg-red-500  text-sm font-bold rounded-full h-5 w-5 flex items-center justify-center
+              absolute left-3 bottom-3' >{currentOrder.length}</span>
+              </div>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <FiUser />
               </IconButton>
+
             </Tooltip>
             <Menu
               sx={{ mt: '45px' }}

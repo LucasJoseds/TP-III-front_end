@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { FormEvent, useState } from "react";
 import { Cliente } from "@/app/interface/Cliente";
 import {  useRouter } from "next/navigation";
+import Swal from 'sweetalert2';
 
 
 export default function ClienteForm(){
@@ -51,9 +52,10 @@ export default function ClienteForm(){
 
         
             if (response.ok) {
-                const data = await response.json();
-                console.log('Sucesso:', data);
-                await router.push('/login')
+                Swal.fire('Sucesso!', 'Cliente cadastrado com sucesso! Você será redirecionado para a tela de Login', 'success')
+                .then(() => {
+                    router.push('/login');
+                });
             } else {
                 console.error('Erro na requisição');
             }
@@ -92,17 +94,24 @@ export default function ClienteForm(){
                             <Label htmlFor="senha">Senha</Label>
                             <Input id="senha" type="password" placeholder="informe sua senha" value={cliente.senha} onChange={handleChange}/>
                         </div>
+
+                        <div className="flex flex-col space-y-1.5">
+                            <Label htmlFor="senha">Confirmar senha</Label>
+                            <Input id="senha" type="password" placeholder="repita sua senha" value={cliente.senha} onChange={handleChange}/>
+                        </div>
                     </div>
                 </CardContent>
                 <CardFooter className="flex justify-between">
+
+                <div className="flex flex-col space-y-1.5">
+                            <Link href="/login" className={buttonVariants({variant:'outline'})} >Já tenho conta</Link>
+                        </div>
+                
                     
                         <div className="flex flex-col space-y-1.5">
                             <Button className="w-full" type="submit" variant="destructive">Criar conta</Button>
                         </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <Link href="/login" className={buttonVariants({variant:'outline'})} >Já tenho conta</Link>
-                        </div>
-                
+                       
                 </CardFooter>
             </Card>
         </form>
