@@ -1,7 +1,7 @@
 
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -14,98 +14,123 @@ import { FaRegEye } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { CardActions } from "@mui/material";
+import { Cliente } from "./interface/Cliente";
 
 export default function Home() {
 
   const theme = useTheme();
   const router = useRouter();
+  const [cliente, setCliente] = useState<Cliente>();
+
+
+  useEffect(() => {
+
+    (async () => {
+      const response = await fetch('http://localhost:5284/api/clientes/cliente', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const content = await response.json();
+      setCliente(content);
+      console.log(content)
+    }
+    )();
+  }, []);
+
+  
 
   return (
-    
-    <Box sx={{ flexGrow: 1, p: 2 }}>
-    <Grid container spacing={4} direction="column">
+    <div>
 
-      <Grid item xs={12}>
-        <Card sx={{ display: 'flex', height: 200, width: '100%' }}>
-          <CardMedia
-            component="img"
-            sx={{ width: 250 }}
-            image="/img/prato_do_dia.png"
-            alt="Prato do dia"
-          />
-          <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
-            <CardContent sx={{ flex: '1 0 auto' }}>
-              <Typography component="div" variant="h5">
-                Pratos mais pedidos
-              </Typography>
-              <Typography variant="subtitle1" color="text.secondary" component="div">
-                Os clientes adoram!
-              </Typography>
+      <div>
+        Olá, {cliente?.nome}
+      </div>
 
-            </CardContent>
-            <CardActions>
-              <Button variant={"destructive"} onClick={()=>router.push("cardapio/cardapio-list")} className="w-35">Visualizar <FaRegEye className="ml-2"/></Button>
 
-            </CardActions>
-          </Box>
-        </Card>
-      </Grid>
+      <Box sx={{ flexGrow: 1, p: 2 }}>
+        <Grid container spacing={4} direction="column">
 
-      {/* Sobremesas */}
-      <Grid item xs={12}>
-        <Card sx={{ display: 'flex', height: 200, width: '100%' }}>
-          <CardMedia
-            component="img"
-            sx={{ width: 250 }}
-            image="/img/sobremesa.jpg"
-            alt="Sobremesa"
-          />
-          <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
-            <CardContent sx={{ flex: '1 0 auto' }}>
-              <Typography component="div" variant="h5">
-                Sobremesas
-              </Typography>
-              <Typography variant="subtitle1" color="text.secondary" component="div">
-                Delicie-se com nossas opções.
-              </Typography>
-            </CardContent>
+          <Grid item xs={12}>
+            <Card sx={{ display: 'flex', height: 200, width: '100%' }}>
+              <CardMedia
+                component="img"
+                sx={{ width: 250 }}
+                image="/img/prato_do_dia.png"
+                alt="Prato do dia"
+              />
+              <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
+                <CardContent sx={{ flex: '1 0 auto' }}>
+                  <Typography component="div" variant="h5">
+                    Pratos mais pedidos
+                  </Typography>
+                  <Typography variant="subtitle1" color="text.secondary" component="div">
+                    Os clientes adoram!
+                  </Typography>
 
-            <CardActions>
-              <Button variant={"destructive"} onClick={()=>router.push("cardapio/cardapio-list")} className="w-35">Visualizar <FaRegEye className="ml-2"/></Button>
+                </CardContent>
+                <CardActions>
+                  <Button variant={"destructive"} onClick={() => router.push("cardapio/cardapio-list")} className="w-35">Visualizar <FaRegEye className="ml-2" /></Button>
 
-            </CardActions>
-          </Box>
-        </Card>
-      </Grid>
+                </CardActions>
+              </Box>
+            </Card>
+          </Grid>
 
-      <Grid item xs={12}>
-        <Card sx={{ display: 'flex', height: 200, width: '100%' }}>
-          <CardMedia
-            component="img"
-            sx={{ width: 250 }}
-            image="/img/bebida.jpg"
-            alt="Sobremesa"
-          />
-          <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
-            <CardContent sx={{ flex: '1 0 auto' }}>
-              <Typography component="div" variant="h5">
-                Bebidas
-              </Typography>
-              <Typography variant="subtitle1" color="text.secondary" component="div">
-                Delicie-se com nossas opções.
-              </Typography>
-            </CardContent>
+          {/* Sobremesas */}
+          <Grid item xs={12}>
+            <Card sx={{ display: 'flex', height: 200, width: '100%' }}>
+              <CardMedia
+                component="img"
+                sx={{ width: 250 }}
+                image="/img/sobremesa.jpg"
+                alt="Sobremesa"
+              />
+              <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
+                <CardContent sx={{ flex: '1 0 auto' }}>
+                  <Typography component="div" variant="h5">
+                    Sobremesas
+                  </Typography>
+                  <Typography variant="subtitle1" color="text.secondary" component="div">
+                    Delicie-se com nossas opções.
+                  </Typography>
+                </CardContent>
 
-            <CardActions>
-              <Button variant={"destructive"} onClick={()=>router.push("cardapio/cardapio-list")} className="w-35">Visualizar <FaRegEye className="ml-2"/></Button>
+                <CardActions>
+                  <Button variant={"destructive"} onClick={() => router.push("cardapio/cardapio-list")} className="w-35">Visualizar <FaRegEye className="ml-2" /></Button>
 
-            </CardActions>
+                </CardActions>
+              </Box>
+            </Card>
+          </Grid>
 
-          </Box>
-        </Card>
-      </Grid>
-    </Grid>
-  </Box>
-   
+          <Grid item xs={12}>
+            <Card sx={{ display: 'flex', height: 200, width: '100%' }}>
+              <CardMedia
+                component="img"
+                sx={{ width: 250 }}
+                image="/img/bebida.jpg"
+                alt="Sobremesa"
+              />
+              <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
+                <CardContent sx={{ flex: '1 0 auto' }}>
+                  <Typography component="div" variant="h5">
+                    Bebidas
+                  </Typography>
+                  <Typography variant="subtitle1" color="text.secondary" component="div">
+                    Delicie-se com nossas opções.
+                  </Typography>
+                </CardContent>
+
+                <CardActions>
+                  <Button variant={"destructive"} onClick={() => router.push("cardapio/cardapio-list")} className="w-35">Visualizar <FaRegEye className="ml-2" /></Button>
+
+                </CardActions>
+
+              </Box>
+            </Card>
+          </Grid>
+        </Grid>
+      </Box>
+    </div>
   );
 }

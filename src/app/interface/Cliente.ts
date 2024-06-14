@@ -5,4 +5,5 @@ export interface Cliente {
     telefone: string
     email: string,
     senha: string
+    role?:string
 }

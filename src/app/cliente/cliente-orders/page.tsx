@@ -5,33 +5,53 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Pedido } from "@/app/interface/Pedido";
-import { ItemCardapio } from "@/app/pedido/pedido-form/page";
 import { Button } from "@/components/ui/button";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { Cliente } from "@/app/interface/Cliente";
 
 
 export default function ClienteOrder() {
 
     const [pedido, setPedido] = useState<Pedido[]>([]);
-    const idCliente = 2;
     const router = useRouter();
+    const [cliente , setCliente] = useState<Cliente>();
 
-    async function fetchPedido(): Promise<Pedido[]> {
 
-        const result = await fetch(`http://localhost:5284/api/pedidos/cliente?idCliente=${idCliente}`, {
-            method: 'GET'
-        });
-        return result.json()
-    }
-    useEffect(() => {
-        const getPedido = async () => {
-            const data = await fetchPedido();
-            setPedido(data);
+    
+    useEffect(()=>{
+
+        (async ()=>{
+          const response = await fetch('http://localhost:5284/api/clientes/cliente',{
+            method: 'GET',
+            credentials:'include',
+          });
+          const content = await response.json();
+          setCliente(content);
+        }
+      )();
+      },[]);
+
+
+     useEffect(() => {
+        const fetchPedido = async () => {
+            if (!cliente || !cliente.id) return;
+
+            try {
+                const result = await fetch(`http://localhost:5284/api/pedidos/cliente?idCliente=${cliente.id}`, {
+                    method: 'GET',
+                });
+                const data = await result.json();
+                setPedido(data);
+            } catch (error) {
+                console.error('Erro ao buscar pedidos:', error);
+            }
         };
-        getPedido();
 
-    }, []);
+        fetchPedido();
+    }, [cliente]);
 
+
+  
     const formatarData = (dataISO: any) => {
         const data = new Date(dataISO);
         return data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });

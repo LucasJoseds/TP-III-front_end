@@ -15,6 +15,7 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import { Label } from "@/components/ui/label";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ItemCardapio } from "@/app/interface/ItemCardapio";
+import { Cliente } from "@/app/interface/Cliente";
 
 
 
@@ -23,8 +24,22 @@ export default function PedidoForm() {
     const [items, setItems] = useState<ItemCardapio[]>([]);
     const [total, setTotal] = useState(0);
     const [numeroMesa, setNumeroMesa] = useState(0);
+    const [cliente , setCliente] = useState<Cliente>();
     const router = useRouter();
-    const clienteId = 2;
+    
+
+    useEffect(()=>{
+
+        (async ()=>{
+          const response = await fetch('http://localhost:5284/api/clientes/cliente',{
+            method: 'GET',
+            credentials:'include',
+          });
+          const content = await response.json();
+          setCliente(content);
+        }
+      )();
+      });
 
     useEffect(() => {
         const currentOrder = JSON.parse(localStorage.getItem("pedido") || "[]");
@@ -71,7 +86,7 @@ export default function PedidoForm() {
 
         const pedidoData: Pedido = {
             id: 0,
-            clienteId: clienteId,
+            clienteId: cliente?.id ?? 0,
             itens: currentOrder.map((item) => ({
                 quantidade: item.quantidade,
                 valor: item.cardapio.preco * item.quantidade,

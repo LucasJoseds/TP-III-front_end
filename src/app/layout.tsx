@@ -7,6 +7,8 @@ import App from "next/app";
 import AppBar from "@/components/AppBar";
 import Footer from "@/components/Footer";
 import { usePathname } from "next/navigation";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import Login from "./login/page";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,21 +27,18 @@ export default function RootLayout({
   return (
 
     <html lang="en">
-      
+
       <body className={inter.className}>
-        <AppBar/>    
-
-
-        <div className="flex min-h-screen flex-col items-center justify-between p-24">
-          {children}
-        </div>
-
-        <Footer/>
+        <AppBar />
+        <ProtectedRoute>
+          <div className="flex min-h-screen flex-col items-center justify-between p-24">
+            {children}
+          </div>
+        </ProtectedRoute>
+        <Footer />
       </body>
 
     </html>
-
-
 
   );
 }
