@@ -32,10 +32,10 @@ export default function ClienteOrder() {
       },[]);
 
 
-     useEffect(() => {
+      useEffect(() => {
         const fetchPedido = async () => {
             if (!cliente || !cliente.id) return;
-
+    
             try {
                 const result = await fetch(`http://localhost:5284/api/pedidos/cliente?idCliente=${cliente.id}`, {
                     method: 'GET',
@@ -46,9 +46,10 @@ export default function ClienteOrder() {
                 console.error('Erro ao buscar pedidos:', error);
             }
         };
-
+    
         fetchPedido();
     }, [cliente]);
+    
 
 
   
