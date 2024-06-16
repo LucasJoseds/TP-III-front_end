@@ -108,7 +108,7 @@ function ResponsiveAppBar() {
       logout();
     }
     if (setting === 'Minha conta') {
-      router.push('/minha-conta');
+      router.push('/user');
     }
   };
 
