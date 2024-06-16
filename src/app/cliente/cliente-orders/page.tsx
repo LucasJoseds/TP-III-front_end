@@ -78,30 +78,25 @@ export default function ClienteOrder() {
         <div className="grid grid-cols-4 gap-12">
             {pedido.map(p => (
                 <Card key={p.id}>
-                    <CardHeader className="flex-row gap-4 intems-center">
-                        <CardTitle className="">Situação: {p.status}</CardTitle>
+                    <CardHeader className="flex-row gap-4 items-center">
+                        <CardTitle>Situação: {p.status}</CardTitle>
                     </CardHeader>
-                    <CardContent className="">
-                        Seu Pedido
-                        <CardDescription>{
-                            p.itens?.map(i => (
-                                <CardDescription key={i.cardapioId}>
-                                    <div className="flex justify-between mt-4">
-                                        <CardDescription >{i.cardapio.nome}</CardDescription>
-                                        <CardDescription >R$ {i.cardapio.preco}</CardDescription>
-                                    </div>
-                                </CardDescription>
-                            ))
-                        }
-                        </CardDescription>
-
+                    <CardContent>
+                        <div className="mt-4">
+                            <p className="font-bold">Seu Pedido</p>
+                            {p.itens?.map(i => (
+                                <div key={i.cardapioId} className="flex justify-between mt-2">
+                                    <div>{i.quantidade}x</div>
+                                    <div>{i.cardapio.nome}</div>
+                                    <div>R$ {i.cardapio.preco.toFixed(2)}</div>
+                                </div>
+                            ))}
+                        </div>
                     </CardContent>
-                    <CardFooter>
-                        Data do pedido: {formatarData(p.dataPedido)}
-                    </CardFooter>
+                    <CardFooter>Data do pedido: {formatarData(p.dataPedido)}</CardFooter>
                 </Card>
             ))}
         </div>
-
     );
+    
 }
