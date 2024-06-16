@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ItemCardapio } from "@/app/interface/ItemCardapio";
 import { Cliente } from "@/app/interface/Cliente";
-
+import Swal from 'sweetalert2';
 
 
 export default function PedidoForm() {
@@ -80,10 +80,11 @@ export default function PedidoForm() {
         localStorage.setItem("pedido", JSON.stringify(updatedItems));
         calculateTotal(updatedItems);
     };
+      
 
     const handleSubmit = async () => {
         const currentOrder = JSON.parse(localStorage.getItem("pedido") || "[]") as ItemCardapio[];
-
+    
         const pedidoData: Pedido = {
             id: 0,
             clienteId: cliente?.id ?? 0,
@@ -91,12 +92,11 @@ export default function PedidoForm() {
                 quantidade: item.quantidade,
                 valor: item.cardapio.preco * item.quantidade,
                 cardapioId: item.cardapio.id, 
-                cardapio:item.cardapio      
+                cardapio: item.cardapio      
             })),
             numeroMesa: numeroMesa
-            
         };
-
+    
         try {
             const response = await fetch('http://localhost:5284/api/pedidos', {
                 method: 'POST',
@@ -105,10 +105,21 @@ export default function PedidoForm() {
                 },
                 body: JSON.stringify(pedidoData)
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
                 console.log('Sucesso:', data);
+                
+                // Limpa o localStorage após confirmar o pedido
+                localStorage.removeItem("pedido");
+    
+                // Redireciona para a tela de pedidos do cliente
+                Swal.fire('Sucesso!', 'Pedido cadastrado com sucesso! Você será redirecionado para a tela de pedidos', 'success')
+                    .then(() => {
+                        router.push("/cliente/cliente-orders");
+                    });
+                
+    
             } else {
                 console.error('Erro na requisição');
             }
