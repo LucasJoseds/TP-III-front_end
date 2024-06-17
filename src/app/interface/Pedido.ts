@@ -9,8 +9,13 @@ export interface Pedido{
         cardapioId: number;
         cardapio:Cardapio
     }[];
-    status?:string,
+    status?:StatusPedido,
     clienteId:number,
     numeroMesa: number
     dataPedido?:Date
+}
+export enum StatusPedido {
+    Preparando = "Preparando",
+    Entregue = "Entregue",
+    Cancelado = "Cancelado"
 }
