@@ -15,7 +15,8 @@ export interface Pedido{
     dataPedido?:Date
 }
 export enum StatusPedido {
+    Aguardando = "Aguardando",
     Preparando = "Preparando",
-    Entregue = "Entregue",
+    Finalizado = "Finalizado",
     Cancelado = "Cancelado"
 }

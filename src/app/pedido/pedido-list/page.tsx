@@ -65,10 +65,10 @@ export default function GerenciarPedidos() {
                                 <td className="w-1/6 py-3 px-4">{pedido.clienteId}</td>
                                 <td className="w-1/6 py-3 px-4">{pedido.numeroMesa}</td>
                                 <td className="w-1/6 py-3 px-4">{pedido.status}</td>
-                                <td className="w-1/6 py-3 px-4">
+                                <td className="w-1/6 py-3 px-4 flex space-x-2">
                                     <Button onClick={() => atualizarStatus(pedido.id, StatusPedido.Cancelado)}>Cancelar</Button>
                                     <Button onClick={() => atualizarStatus(pedido.id, StatusPedido.Preparando)}>Preparando</Button>
-                                    <Button onClick={() => atualizarStatus(pedido.id, StatusPedido.Entregue)}>Entregue</Button>
+                                    <Button onClick={() => atualizarStatus(pedido.id, StatusPedido.Finalizado)}>Finalizado</Button>
                                 </td>
                             </tr>
                         ))}
