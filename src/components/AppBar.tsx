@@ -71,6 +71,7 @@ function ResponsiveAppBar() {
   }
 
   const isLoginPage = path === '/login';
+  const isRegisterUser = path === '/cliente/cliente-form';
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -188,7 +189,7 @@ function ResponsiveAppBar() {
               <Avatar alt="Remy Sharp" src="/img/logo_nova.png" sx={{ width: 180, borderRadius: 0 }} />
             </Typography>
 
-            {!isLoginPage && (
+            {!isLoginPage && !isRegisterUser && (
               <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 {pages.map((page) => (
                   <Button
@@ -202,14 +203,14 @@ function ResponsiveAppBar() {
               </Box>
             )}
 
-            {!isLoginPage && (
+            {!isLoginPage && !isRegisterUser && (
               <div onClick={() => router.push("/pedido/pedido-form")} className='flex items-center cursor-pointer relative mr-10'>
                 <IoBagRemoveOutline size={24} />
                 <span className='bg-red-500  text-sm font-bold rounded-full h-5 w-5 flex items-center justify-center absolute left-3 bottom-3' >{currentOrder.length}</span>
               </div>
             )}
 
-            {!isLoginPage && (
+            {!isLoginPage && !isRegisterUser && (
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Abrir configurações">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

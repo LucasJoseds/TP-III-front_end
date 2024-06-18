@@ -4,6 +4,17 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Pedido, StatusPedido } from "@/app/interface/Pedido";
 import Swal from 'sweetalert2';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+import { CiSettings } from "react-icons/ci";
 
 export default function GerenciarPedidos() {
     const [pedidos, setPedidos] = useState<Pedido[]>([]);
@@ -45,35 +56,43 @@ export default function GerenciarPedidos() {
     };
 
     return (
-        <div>
-            <h1 className="text-center text-4xl my-8">Gerenciar Pedidos</h1>
-            <div className="overflow-x-auto">
-                <table className="min-w-full bg-white">
-                    <thead className="bg-gray-800 text-white">
-                        <tr>
-                            <th className="w-1/6 py-3 px-4 uppercase font-semibold text-sm">ID</th>
-                            <th className="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Cliente</th>
-                            <th className="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Mesa</th>
-                            <th className="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Status</th>
-                            <th className="w-1/6 py-3 px-4 uppercase font-semibold text-sm">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody className="text-gray-700">
-                        {pedidos.map(pedido => (
-                            <tr key={pedido.id}>
-                                <td className="w-1/6 py-3 px-4">{pedido.id}</td>
-                                <td className="w-1/6 py-3 px-4">{pedido.clienteId}</td>
-                                <td className="w-1/6 py-3 px-4">{pedido.numeroMesa}</td>
-                                <td className="w-1/6 py-3 px-4">{pedido.status}</td>
-                                <td className="w-1/6 py-3 px-4 flex space-x-2">
-                                    <Button onClick={() => atualizarStatus(pedido.id, StatusPedido.Cancelado)}>Cancelar</Button>
-                                    <Button onClick={() => atualizarStatus(pedido.id, StatusPedido.Preparando)}>Preparando</Button>
-                                    <Button onClick={() => atualizarStatus(pedido.id, StatusPedido.Finalizado)}>Finalizado</Button>
-                                </td>
-                            </tr>
+        <div className="flex flex-col items-center">
+            <h2 className="text-4xl font-bold mb-10">Gerenciar Pedidos</h2>
+            <div className="w-full max-w-screen-lg">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>Id</TableHead>
+                            <TableHead>Cliente</TableHead>
+                            <TableHead>Mesa</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead className="text-right">Ações</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {pedidos.map(p => (
+                            <TableRow key={p.id}>
+                                <TableCell>{p.id}</TableCell>
+                                <TableCell>{p.clienteId}</TableCell>
+                                <TableCell>{p.numeroMesa}</TableCell>
+                                <TableCell>{p.status}</TableCell>
+                                <TableCell className="text-right">
+                                    {/* Menu de ações */}
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger><CiSettings size={25} /></DropdownMenuTrigger>
+                                        <DropdownMenuContent>
+                                            <DropdownMenuLabel>Alterar status</DropdownMenuLabel>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem onClick={() => atualizarStatus(p.id, StatusPedido.Cancelado)}>Cancelado</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => atualizarStatus(p.id, StatusPedido.Preparando)}>Preparando</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => atualizarStatus(p.id, StatusPedido.Finalizado)}>Finalizado</DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </TableCell>
+                            </TableRow>
                         ))}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );
