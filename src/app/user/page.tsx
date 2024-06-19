@@ -45,6 +45,31 @@ export default function EditarConta() {
     }));
   };
 
+  const handleCPFChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const rawValue = value.replace(/\D/g, '').slice(0, 11); // Limit to 11 digits
+    const formattedCPF = rawValue
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    setCliente((prevState: Cliente) => ({
+      ...prevState,
+      cpf: formattedCPF
+    }));
+  };
+
+  const handleTelefoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    const rawValue = value.replace(/\D/g, '').slice(0, 11); // Limit to 11 digits
+    const formattedTelefone = rawValue
+      .replace(/(\d{2})(\d)/, '($1) $2')
+      .replace(/(\d{5})(\d)/, '$1-$2');
+    setCliente((prevState: Cliente) => ({
+      ...prevState,
+      telefone: formattedTelefone
+    }));
+  };
+
   const handleSenhaAtualChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSenhaAtual(e.target.value);
   };
@@ -64,17 +89,17 @@ export default function EditarConta() {
     if (!cliente.cpf) {
       newErrors.cpf = 'CPF é obrigatório';
     } else {
-      const cpfRegex = /^\d{11}$/;
+      const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
       if (!cpfRegex.test(cliente.cpf)) {
-        newErrors.cpf = 'CPF deve conter 11 números';
+        newErrors.cpf = 'CPF deve estar no formato 999.999.999-99';
       }
     }
     if (!cliente.telefone) {
       newErrors.telefone = 'Telefone é obrigatório';
     } else {
-      const telefoneRegex = /^\d{11}$/;
+      const telefoneRegex = /^\(\d{2}\)\s\d{5}-\d{4}$/;
       if (!telefoneRegex.test(cliente.telefone)) {
-        newErrors.telefone = 'Telefone deve conter 11 números';
+        newErrors.telefone = 'Telefone deve estar no formato (99) 99999-9999';
       }
     }
     if (!cliente.email) {
@@ -151,12 +176,12 @@ export default function EditarConta() {
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="cpf">CPF</Label>
-              <Input id="cpf" placeholder="Informe seu CPF" value={cliente.cpf} onChange={handleChange} />
+              <Input id="cpf" placeholder="Informe seu CPF" value={cliente.cpf} onChange={handleCPFChange} />
               {errors.cpf && <span className="text-red-500">{errors.cpf}</span>}
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="telefone">Telefone</Label>
-              <Input id="telefone" placeholder="Informe seu telefone" value={cliente.telefone} onChange={handleChange} />
+              <Input id="telefone" placeholder="Informe seu telefone" value={cliente.telefone} onChange={handleTelefoneChange} />
               {errors.telefone && <span className="text-red-500">{errors.telefone}</span>}
             </div>
             <div className="flex flex-col space-y-1.5">
