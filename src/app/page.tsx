@@ -52,7 +52,7 @@ export default function Home() {
         </Typography>
 
         <Typography variant="h6" component="div" sx={{ color: '#00000'}}>
-          O que temos para você
+          O que temos para você!
         </Typography>
       </Box>
 
@@ -72,10 +72,10 @@ export default function Home() {
                   Pratos mais pedidos
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary" component="div">
-                  Os clientes adoram!
+                Descubra os favoritos da casa, pratos que conquistaram o coração dos nossos clientes pela sua qualidade e sabor incomparável.
                 </Typography>
               </CardContent>
-              <CardActions sx={{ justifyContent: 'center' }}>
+              <CardActions>
                 <Button variant={"destructive"} onClick={() => router.push("cardapio/cardapio-list")} className="w-35">
                   Visualizar <FaRegEye className="ml-2" />
                 </Button>
@@ -99,10 +99,10 @@ export default function Home() {
                   Sobremesas
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary" component="div">
-                  Delicie-se com nossas opções.
+                Complete sua refeição com nossas sobremesas, uma seleção deliciosa que promete encantar todos os paladares.
                 </Typography>
               </CardContent>
-              <CardActions sx={{ justifyContent: 'center' }}>
+              <CardActions >
                 <Button variant={"destructive"} onClick={() => router.push("cardapio/cardapio-list")} className="">
                   Visualizar <FaRegEye className="ml-2" />
                 </Button>
@@ -125,10 +125,10 @@ export default function Home() {
                   Bebidas
                 </Typography>
                 <Typography variant="subtitle1" color="text.secondary" component="div">
-                  Delicie-se com nossas opções.
+                Descubra nossa seleção de bebidas refrescantes, perfeitas para acompanhar qualquer refeição e saciar a sua sede.
                 </Typography>
               </CardContent>
-              <CardActions sx={{ justifyContent: 'center' }}>
+              <CardActions>
                 <Button variant={"destructive"} onClick={() => router.push("cardapio/cardapio-list")} className="w-35">
                   Visualizar <FaRegEye className="ml-2" />
                 </Button>

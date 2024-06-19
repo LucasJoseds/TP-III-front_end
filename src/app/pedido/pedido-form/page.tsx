@@ -112,6 +112,7 @@ export default function PedidoForm() {
                 
                 // Limpa o localStorage após confirmar o pedido
                 localStorage.removeItem("pedido");
+                window.dispatchEvent(new Event('storage'));
     
                 // Redireciona para a tela de pedidos do cliente
                 Swal.fire('Sucesso!', 'Pedido cadastrado com sucesso! Você será redirecionado para a tela de pedidos', 'success')
