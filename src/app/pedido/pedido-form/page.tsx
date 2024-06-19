@@ -80,52 +80,66 @@ export default function PedidoForm() {
         localStorage.setItem("pedido", JSON.stringify(updatedItems));
         calculateTotal(updatedItems);
     };
-      
 
     const handleSubmit = async () => {
-        const currentOrder = JSON.parse(localStorage.getItem("pedido") || "[]") as ItemCardapio[];
-    
-        const pedidoData: Pedido = {
-            id: 0,
-            clienteId: cliente?.id ?? 0,
-            itens: currentOrder.map((item) => ({
-                quantidade: item.quantidade,
-                valor: item.cardapio.preco * item.quantidade,
-                cardapioId: item.cardapio.id, 
-                cardapio: item.cardapio      
-            })),
-            numeroMesa: numeroMesa
-        };
-    
-        try {
-            const response = await fetch('http://localhost:5284/api/pedidos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(pedidoData)
-            });
-    
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Sucesso:', data);
-                
-                // Limpa o localStorage após confirmar o pedido
-                localStorage.removeItem("pedido");
-                window.dispatchEvent(new Event('storage'));
-    
-                // Redireciona para a tela de pedidos do cliente
-                Swal.fire('Sucesso!', 'Pedido cadastrado com sucesso! Você será redirecionado para a tela de pedidos', 'success')
-                    .then(() => {
-                        router.push("/cliente/cliente-orders");
-                    });
-                
-    
-            } else {
-                console.error('Erro na requisição');
+        const { value: mesa } = await Swal.fire({
+            title: 'Número da mesa',
+            input: 'number',
+            inputLabel: 'Por favor, insira o número da mesa',
+            inputPlaceholder: 'Número da Mesa',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Você precisa inserir o número da mesa!'
+                }
             }
-        } catch (error) {
-            console.error('Erro na requisição:', error);
+        });
+
+        if (mesa) {
+            const currentOrder = JSON.parse(localStorage.getItem("pedido") || "[]") as ItemCardapio[];
+        
+            const pedidoData: Pedido = {
+                id: 0,
+                clienteId: cliente?.id ?? 0,
+                itens: currentOrder.map((item) => ({
+                    quantidade: item.quantidade,
+                    valor: item.cardapio.preco * item.quantidade,
+                    cardapioId: item.cardapio.id, 
+                    cardapio: item.cardapio      
+                })),
+                numeroMesa: parseInt(mesa)
+            };
+        
+            try {
+                const response = await fetch('http://localhost:5284/api/pedidos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(pedidoData)
+                });
+        
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Sucesso:', data);
+                    
+                    // Limpa o localStorage após confirmar o pedido
+                    localStorage.removeItem("pedido");
+                    window.dispatchEvent(new Event('storage'));
+        
+                    // Redireciona para a tela de pedidos do cliente
+                    Swal.fire('Sucesso!', 'Pedido cadastrado com sucesso! Você será redirecionado para a tela de pedidos', 'success')
+                        .then(() => {
+                            router.push("/cliente/cliente-orders");
+                        });
+                    
+        
+                } else {
+                    console.error('Erro na requisição');
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+            }
         }
     };
 
@@ -149,6 +163,7 @@ export default function PedidoForm() {
                         <IoMdArrowRoundBack className="mr-3" /> Ver nossas opções
                     </Button>
                 </div>
+
             </div>
 
         )
@@ -197,10 +212,6 @@ export default function PedidoForm() {
                 <div className="absolute inset-0 flex items-center mt-3">
                     <span className="w-full border-t"></span>
                 </div>
-            </div>
-            <div className="grid w-full items-center gap-4 mt-6">
-                <Label htmlFor="preco">Número da mesa</Label>
-                <Input type="number" value={numeroMesa} onChange={e => setNumeroMesa(parseInt(e.target.value))} placeholder="Número da Mesa" />
             </div>
 
             <div className="grid w-full items-center gap-4">
