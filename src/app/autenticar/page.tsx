@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LoginUser } from "../interface/LoginUser";
 
-export default function Login() {
+export default function AutenticarFuncionario() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -30,20 +30,20 @@ export default function Login() {
         return newErrors;
     };
 
-    const handleSubmit = async () => {
+    const handleSubmitFuncionario = async () => {
         const newErrors = validate();
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
-
+    
         const loginData: LoginUser = {
             email: email,
             senha: senha
         };
-
+    
         try {
-            const response = await fetch('http://localhost:5284/api/auth', {
+            const response = await fetch('http://localhost:5284/api/autenticar/funcionario', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ export default function Login() {
                 const token = data.jwt;
                 localStorage.setItem('token', token);
 
-                await router.push('/');
+                await router.push('/pedido/pedido-list');
                 console.log('Sucesso:', data);
             } else {
                 const errorData = await response.json();
@@ -77,7 +77,7 @@ export default function Login() {
     return (
         <Card className="w-[350px]">
             <CardHeader>
-                <CardTitle>Login Cliente</CardTitle>
+                <CardTitle>Login Funcionário</CardTitle>
             </CardHeader>
             <CardContent>
                 <div className="grid w-full items-center gap-4">
@@ -97,7 +97,7 @@ export default function Login() {
             <CardFooter className="flex justify-between">
                 <div className="grid w-full items-center gap-4">
                     <div className="flex flex-col space-y-1.5">
-                        <Button className="w-full" onClick={handleSubmit} variant="destructive">Entrar</Button>
+                        <Button className="w-full" onClick={handleSubmitFuncionario} variant="destructive">Entrar</Button>
                     </div>
                     <div className="flex flex-col space-y-1.5">
                         <Link href="/cliente/cliente-form" className={buttonVariants({ variant: 'outline' })}>Cadastre-se</Link>

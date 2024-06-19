@@ -14,7 +14,7 @@ export default function ProtectedRoute({children}:{children:ReactNode}){
         // Se estiver autenticado, permitir renderizar o conteúdo protegido
         if (!isAuthenticated) {
           // Se não estiver autenticado, redirecionar para a página de login
-          router.push('/login');
+          router.push('/autenticar');
         }
       };
   

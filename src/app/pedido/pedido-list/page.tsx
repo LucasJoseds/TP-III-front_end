@@ -55,6 +55,10 @@ export default function GerenciarPedidos() {
         }
     };
 
+    const formatarData = (dataISO: any) => {
+        const data = new Date(dataISO);
+        return data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    };
     return (
         <div className="flex flex-col items-center">
             <h2 className="text-4xl font-bold mb-10">Gerenciar Pedidos</h2>
@@ -62,7 +66,7 @@ export default function GerenciarPedidos() {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Id</TableHead>
+                            <TableHead>Data</TableHead>
                             <TableHead>Cliente</TableHead>
                             <TableHead>Mesa</TableHead>
                             <TableHead>Status</TableHead>
@@ -72,7 +76,7 @@ export default function GerenciarPedidos() {
                     <TableBody>
                         {pedidos.map(p => (
                             <TableRow key={p.id}>
-                                <TableCell>{p.id}</TableCell>
+                                <TableCell>{formatarData(p.dataPedido)}</TableCell>
                                 <TableCell>{p.clienteId}</TableCell>
                                 <TableCell>{p.numeroMesa}</TableCell>
                                 <TableCell>{p.status}</TableCell>
@@ -83,9 +87,16 @@ export default function GerenciarPedidos() {
                                         <DropdownMenuContent>
                                             <DropdownMenuLabel>Alterar status</DropdownMenuLabel>
                                             <DropdownMenuSeparator />
-                                            <DropdownMenuItem onClick={() => atualizarStatus(p.id, StatusPedido.Cancelado)}>Cancelado</DropdownMenuItem>
-                                            <DropdownMenuItem onClick={() => atualizarStatus(p.id, StatusPedido.Preparando)}>Preparando</DropdownMenuItem>
-                                            <DropdownMenuItem onClick={() => atualizarStatus(p.id, StatusPedido.Finalizado)}>Finalizado</DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => atualizarStatus(p.id, StatusPedido.Cancelado)} disabled={p.status === StatusPedido.Cancelado || p.status === StatusPedido.Finalizado}>
+                                                Cancelado
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => atualizarStatus(p.id, StatusPedido.Preparando)} disabled={p.status === StatusPedido.Cancelado || p.status === StatusPedido.Finalizado}>
+                                                Preparando
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => atualizarStatus(p.id, StatusPedido.Finalizado)} disabled={p.status === StatusPedido.Cancelado || p.status === StatusPedido.Finalizado}>
+                                                Finalizado
+                                            </DropdownMenuItem>
+
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>

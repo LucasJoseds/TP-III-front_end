@@ -11,6 +11,7 @@ export interface Pedido{
     }[];
     status?:StatusPedido,
     clienteId:number,
+    nome:string,
     numeroMesa: number
     dataPedido?:Date
 }
